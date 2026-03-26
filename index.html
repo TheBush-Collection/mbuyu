@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mbuyu Watatu — Coastal Sanctuary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --sand: #F5EFE0;
+    --sand-dark: #E8DCC8;
+    --ocean: #1A3A4A;
+    --ocean-mid: #2C5F72;
+    --ocean-light: #4A8FA6;
+    --coral: #C4704A;
+    --coral-light: #D9896A;
+    --ivory: #FAF7F2;
+    --charcoal: #1C1C1C;
+    --text-muted: #6B6454;
+    --gold: #B8965A;
+    --gold-light: #D4B07A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--ivory);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ─── CURSOR ─── */
+  body { cursor: none; }
+  .cursor {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--coral);
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease, opacity 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--coral);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    opacity: 0.5;
+    transition: transform 0.35s ease, width 0.3s, height 0.3s;
+    transform: translate(-50%, -50%);
+  }
+  a:hover ~ .cursor-ring, button:hover ~ .cursor-ring { width: 56px; height: 56px; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 24px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.5s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(26, 58, 74, 0.96);
+    padding: 16px 60px;
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--sand);
+    text-decoration: none;
+  }
+  .nav-logo span { font-style: italic; color: var(--gold-light); }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.8);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-cta {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sand);
+    border: 1px solid var(--gold);
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--charcoal); }
+
+  /* hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 1px; background: var(--sand); transition: 0.3s; }
+
+  /* ─── HERO ─── */
+  #hero {
+    height: 100vh; min-height: 700px;
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(12,30,40,0.3) 0%, rgba(12,30,40,0.15) 40%, rgba(12,30,40,0.65) 100%),
+      url('https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515317/MB-6694_xfyq4d.jpg') center/cover no-repeat;
+    transform: scale(1.05);
+    animation: heroZoom 12s ease-in-out infinite alternate;
+  }
+  @keyframes heroZoom { from { transform: scale(1.05); } to { transform: scale(1.0); } }
+
+  /* wave SVG at bottom of hero */
+  .hero-wave {
+    position: absolute; bottom: -2px; left: 0; right: 0;
+    line-height: 0;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 60px 100px;
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-weight: 300;
+    line-height: 0.95;
+    color: var(--sand);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--gold-light); display: block; }
+  .hero-subtitle {
+    font-size: 0.9rem;
+    font-weight: 200;
+    letter-spacing: 0.06em;
+    color: rgba(245,239,224,0.75);
+    max-width: 420px;
+    line-height: 1.8;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 20px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+  .btn-primary {
+    display: inline-block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: var(--gold);
+    padding: 16px 40px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.8);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold-light); }
+  .btn-ghost svg { transition: transform 0.3s; }
+  .btn-ghost:hover svg { transform: translateX(4px); }
+
+  /* ─── STRIP ─── */
+  .strip {
+    background: var(--ocean);
+    padding: 20px 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .strip-track {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    white-space: nowrap;
+    animation: stripScroll 28s linear infinite;
+    will-change: transform;
+  }
+  .strip:hover .strip-track { animation-play-state: paused; }
+  @keyframes stripScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .strip-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.6);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .strip-item svg { color: var(--gold); flex-shrink: 0; }
+  .strip-divider { width: 1px; height: 20px; background: rgba(245,239,224,0.15); flex-shrink: 0; }
+
+  /* ─── SECTION SHARED ─── */
+  section { position: relative; }
+  .section-label {
+    font-size: 0.6rem;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ocean);
+  }
+  .section-heading em { font-style: italic; color: var(--coral); }
+  .section-body {
+    font-size: 0.92rem;
+    font-weight: 200;
+    line-height: 1.9;
+    color: var(--text-muted);
+    max-width: 520px;
+  }
+
+  /* ─── INTRO ─── */
+  #intro {
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    background: var(--ivory);
+  }
+  .intro-image-stack { position: relative; }
+  .intro-img-main {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+  }
+  .intro-img-accent {
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 55%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: 6px solid var(--ivory);
+  }
+  .intro-badge {
+    position: absolute;
+    top: 40px; left: -30px;
+    background: var(--ocean);
+    color: var(--sand);
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .intro-badge-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    display: block;
+    line-height: 1;
+  }
+  .intro-badge-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.6);
+    display: block;
+    margin-top: 4px;
+  }
+  .intro-text { padding-left: 20px; }
+  .intro-features { margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .feature-item {}
+  .feature-icon { color: var(--gold); margin-bottom: 10px; }
+  .feature-title {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ocean);
+    margin-bottom: 6px;
+  }
+  .feature-desc {
+    font-size: 0.8rem;
+    font-weight: 200;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ─── EXPERIENCES ─── */
+  #experiences {
+    background: var(--ocean);
+    padding: 120px 60px;
+    overflow: hidden;
+  }
+  #experiences .section-heading { color: var(--sand); }
+  #experiences .section-label { color: var(--gold-light); }
+  #experiences .section-body { color: rgba(245,239,224,0.6); max-width: 480px; }
+  .exp-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 60px;
+  }
+  .exp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .exp-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: none;
+  }
+  .exp-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+  .exp-card:hover img { transform: scale(1.08); }
+  .exp-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(12,30,40,0.9) 0%, rgba(12,30,40,0.1) 55%);
+    display: flex; align-items: flex-end;
+    padding: 32px;
+    transition: background 0.4s;
+  }
+  .exp-card:hover .exp-card-overlay {
+    background: linear-gradient(to top, rgba(12,30,40,0.95) 0%, rgba(12,30,40,0.3) 60%);
+  }
+  .exp-card-content {}
+  .exp-card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: var(--gold-light);
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .exp-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--sand);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .exp-card-desc {
+    font-size: 0.78rem;
+    font-weight: 200;
+    color: rgba(245,239,224,0.65);
+    line-height: 1.7;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  .exp-card:hover .exp-card-desc { max-height: 100px; }
+
+  /* ─── ACCOMMODATIONS ─── */
+  #accommodations {
+    padding: 120px 60px;
+    background: var(--sand);
+  }
+  .acc-header { margin-bottom: 70px; }
+  .acc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .acc-card {
+    background: var(--ivory);
+    overflow: hidden;
+  }
+  .acc-card-img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    display: block;
+    transition: transform 0.6s;
+  }
+  .acc-card:hover .acc-card-img { transform: scale(1.04); }
+  .acc-card-img-wrap { overflow: hidden; }
+  .acc-card-body { padding: 28px 30px 32px; }
+  .acc-card-type {
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 10px;
+  }
+  .acc-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ocean);
+    margin-bottom: 12px;
+  }
+  .acc-card-desc {
+    font-size: 0.8rem;
+    font-weight: 200;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+  }
+  .acc-amenities {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 24px;
+  }
+  .amenity-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ocean-mid);
+    border: 1px solid rgba(44,95,114,0.25);
+    padding: 5px 10px;
+  }
+  .acc-card-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--coral);
+    text-decoration: none;
+    font-weight: 400;
+    transition: gap 0.3s;
+  }
+  .acc-card-link:hover { gap: 14px; }
+
+  /* ─── QUOTE BAND ─── */
+  #quote-band {
+    background: var(--sand-dark);
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #quote-band::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20rem;
+    color: rgba(26,58,74,0.05);
+    position: absolute;
+    top: -60px; left: 50%; transform: translateX(-50%);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.6rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ocean);
+    max-width: 800px;
+    margin: 0 auto 28px;
+    line-height: 1.4;
+    position: relative;
+  }
+  .quote-attr {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ─── WHY US ─── */
+  #why {
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+  .why-image {
+    position: relative;
+  }
+  .why-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+  }
+  .why-img-stripe {
+    position: absolute;
+    top: 60px; right: -30px;
+    width: 60px; bottom: 60px;
+    background: var(--gold);
+    opacity: 0.35;
+  }
+  .why-list { margin-top: 44px; }
+  .why-item {
+    display: flex; gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(26,58,74,0.1);
+  }
+  .why-item:first-child { border-top: 1px solid rgba(26,58,74,0.1); }
+  .why-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--gold);
+    flex-shrink: 0;
+    width: 30px;
+    margin-top: 2px;
+  }
+  .why-item-title {
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--ocean);
+    margin-bottom: 6px;
+  }
+  .why-item-desc {
+    font-size: 0.8rem;
+    font-weight: 200;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* ─── GALLERY ─── */
+  #gallery { overflow: hidden; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+  }
+  .gallery-cell {
+    overflow: hidden;
+    position: relative;
+  }
+  .gallery-cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 1/1;
+    transition: transform 0.7s ease;
+    filter: brightness(0.92);
+  }
+  .gallery-cell:hover img { transform: scale(1.06); filter: brightness(1); }
+  .gallery-cell.tall { grid-row: span 2; }
+  .gallery-cell.tall img { aspect-ratio: auto; height: 100%; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--ocean);
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  #contact .section-heading { color: var(--sand); margin-bottom: 20px; }
+  #contact .section-label { color: var(--gold-light); }
+  #contact .section-body { color: rgba(245,239,224,0.55); margin-bottom: 50px; }
+
+  .contact-details { display: flex; flex-direction: column; gap: 28px; }
+  .contact-item { display: flex; gap: 18px; align-items: flex-start; }
+  .contact-icon {
+    width: 44px; height: 44px;
+    border: 1px solid rgba(184,150,90,0.4);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: var(--gold-light);
+  }
+  .contact-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.4);
+    margin-bottom: 4px;
+  }
+  .contact-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--sand);
+    font-weight: 300;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: block;
+  }
+  .contact-value:hover { color: var(--gold-light); }
+
+  /* form */
+  .contact-form { display: flex; flex-direction: column; gap: 18px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .form-field { display: flex; flex-direction: column; }
+  .form-field label {
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.45);
+    margin-bottom: 8px;
+  }
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--sand);
+    padding: 14px 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 200;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+    cursor: none;
+  }
+  .form-field input::placeholder,
+  .form-field textarea::placeholder { color: rgba(245,239,224,0.25); }
+  .form-field input:focus,
+  .form-field textarea:focus,
+  .form-field select:focus { border-color: var(--gold); }
+  .form-field textarea { resize: vertical; min-height: 120px; }
+  .form-field select option { background: var(--ocean); color: var(--sand); }
+  .form-submit {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    background: var(--gold);
+    border: none;
+    padding: 18px 40px;
+    cursor: none;
+    align-self: flex-start;
+    transition: background 0.3s, transform 0.3s;
+    margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #0D1F28;
+    padding: 60px 60px 40px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 50px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 40px;
+  }
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--sand);
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+  }
+  .footer-brand-name span { font-style: italic; color: var(--gold-light); }
+  .footer-tagline {
+    font-size: 0.8rem;
+    font-weight: 200;
+    color: rgba(245,239,224,0.4);
+    line-height: 1.75;
+    margin-bottom: 24px;
+  }
+  .footer-social { display: flex; gap: 12px; }
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(245,239,224,0.4);
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-col-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a {
+    font-size: 0.8rem;
+    font-weight: 200;
+    color: rgba(245,239,224,0.45);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold-light); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy {
+    font-size: 0.7rem;
+    font-weight: 200;
+    color: rgba(245,239,224,0.25);
+    letter-spacing: 0.08em;
+  }
+  .footer-bottom-links { display: flex; gap: 24px; }
+  .footer-bottom-links a {
+    font-size: 0.65rem;
+    color: rgba(245,239,224,0.25);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+  }
+  .footer-bottom-links a:hover { color: var(--gold-light); }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── COMING SOON HERO BADGE ─── */
+  .hero-coming-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 36px;
+    padding: 14px 28px;
+    border: 1px solid rgba(184,150,90,0.45);
+    background: rgba(12,30,40,0.55);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    animation: fadeUp 1s 1.1s forwards;
+  }
+  .hero-cs-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+  .hero-cs-text {
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+  .hero-cs-text strong {
+    color: var(--sand);
+    font-weight: 400;
+  }
+
+  /* ─── COMING SOON ACC CARD ─── */
+  .acc-card-coming {
+    background: var(--ocean);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .acc-card-coming-img-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+  .acc-card-coming-img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover;
+    display: block;
+    filter: brightness(0.55) saturate(0.7);
+    transition: transform 0.6s;
+  }
+  .acc-card-coming:hover .acc-card-coming-img { transform: scale(1.04); }
+  .acc-coming-overlay-badge {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+  }
+  .acc-card-coming-body {
+    padding: 28px 30px 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .acc-card-coming-body .acc-card-type { color: var(--gold-light); }
+  .acc-card-coming-body .acc-card-title { color: var(--sand); }
+  .acc-card-coming-body .acc-card-desc { color: rgba(245,239,224,0.55); margin-bottom: 28px; }
+
+  /* Rate preview grid */
+  .cs-rates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.07);
+    margin-bottom: 24px;
+  }
+  .cs-rate-cell {
+    background: rgba(255,255,255,0.04);
+    padding: 14px 16px;
+  }
+  .cs-rate-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.35);
+    margin-bottom: 4px;
+  }
+  .cs-rate-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1.2;
+  }
+  .cs-rate-value span {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 200;
+    color: rgba(245,239,224,0.4);
+    margin-left: 2px;
+  }
+
+  .cs-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 24px;
+  }
+
+  .cs-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .cs-service-tag {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(245,239,224,0.5);
+    border: 1px solid rgba(184,150,90,0.25);
+    padding: 5px 10px;
+  }
+
+  .cs-notify-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 400;
+    transition: gap 0.3s;
+    margin-top: auto;
+  }
+  .cs-notify-link:hover { gap: 14px; color: var(--gold-light); }
+
+  /* ─── MOBILE NAV OVERLAY ─── */
+  .mobile-menu {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: var(--ocean);
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 36px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--sand);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .mobile-menu a:hover { color: var(--gold-light); }
+  .mobile-close {
+    position: absolute; top: 24px; right: 30px;
+    background: none; border: none;
+    color: var(--sand); font-size: 2rem; cursor: none;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 32px; }
+    nav.scrolled { padding: 14px 32px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-cta { display: none; }
+    #intro { grid-template-columns: 1fr; gap: 60px; padding: 80px 32px; }
+    .intro-text { padding-left: 0; }
+    .intro-badge { left: 16px; }
+    #experiences { padding: 80px 32px; }
+    .exp-grid { grid-template-columns: 1fr; }
+    .exp-card { aspect-ratio: 16/9; }
+    #accommodations { padding: 80px 32px; }
+    .acc-grid { grid-template-columns: 1fr 1fr; }
+    #why { grid-template-columns: 1fr; padding: 80px 32px; gap: 60px; }
+    .gallery-grid { grid-template-columns: repeat(2,1fr); }
+    .gallery-cell.tall { grid-row: span 1; }
+    #contact { grid-template-columns: 1fr; padding: 80px 32px; }
+    footer { padding: 50px 32px 32px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .strip { padding: 16px 24px; gap: 24px; flex-wrap: wrap; }
+    .hero-content { padding: 0 32px 80px; }
+  }
+  @media (max-width: 600px) {
+    .hero-title { font-size: 3rem; }
+    .exp-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: flex-start; }
+    #quote-band { padding: 60px 32px; }
+    .acc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">&#x2715;</button>
+  <a href="#intro" onclick="closeMobile()">About</a>
+  <a href="#experiences" onclick="closeMobile()">Experiences</a>
+  <a href="#accommodations" onclick="closeMobile()">Stay</a>
+  <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Mbuyu <span>Watatu</span></a>
+  <ul class="nav-links">
+    <li><a href="#intro">About</a></li>
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#accommodations">Stay</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Reserve Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#FAF7F2"/>
+    </svg>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">&#x25CF; Coastal Sanctuary · Kenya</p>
+    <h1 class="hero-title">
+      Where the Sea<br>
+      <em>Meets Silence.</em>
+    </h1>
+    <p class="hero-subtitle">Mbuyu Watatu — an intimate beach retreat where ancient baobabs meet the Indian Ocean, and every moment becomes a memory.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book Your Stay</a>
+      <a href="#experiences" class="btn-ghost">
+        Discover More
+        <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 5H17M13 1L17 5L13 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+    <div class="hero-coming-soon">
+      <span class="hero-cs-dot"></span>
+      <p class="hero-cs-text"><strong>Mbuyu Watatu</strong> — Tranquil Coastal Retreat in Shimoni, Kwale &nbsp;·&nbsp; COMING SOON · Register Interest</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STRIP ─── -->
+<div class="strip">
+  <div class="strip-track">
+    <!-- set 1 -->
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+      Kenyan Coastline
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      All-Day Check-In Concierge
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.05 1.2 2 2 0 012.02 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      +254 116 072 343
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Curated Private Experiences
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      The Bush Collection Family
+    </div>
+    <div class="strip-divider"></div>
+    <!-- set 2 (duplicate for seamless loop) -->
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+      Kenyan Coastline
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      All-Day Check-In Concierge
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.05 1.2 2 2 0 012.02 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+      +254 116 072 343
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Curated Private Experiences
+    </div>
+    <div class="strip-divider"></div>
+    <div class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      The Bush Collection Family
+    </div>
+    <div class="strip-divider"></div>
+  </div>
+</div>
+
+<!-- ─── INTRO ─── -->
+<section id="intro">
+  <div class="intro-image-stack reveal">
+    <img class="intro-img-main" src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515317/MB-6694_xfyq4d.jpg" alt="Mbuyu Watatu beachfront">
+    <img class="intro-img-accent" src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515783/MB-6727_1_jjorhp.jpg" alt="Ocean view">
+    <div class="intro-badge">
+      <span class="intro-badge-num">3</span>
+      <span class="intro-badge-text">Baobabs</span>
+    </div>
+  </div>
+  <div class="intro-text reveal reveal-delay-1">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-heading">A Property Born<br>from <em>The Land</em></h2>
+    <p class="section-body" style="margin-top:20px">
+      Named after three ancient baobab trees that have stood sentinel over the shoreline for centuries, Mbuyu Watatu is an intimate sanctuary where the rhythms of the Indian Ocean set the pace of your days. Part of The Bush Collection, we blend barefoot luxury with a deep respect for the coast.
+    </p>
+    <div class="intro-features">
+      <div class="feature-item reveal reveal-delay-1">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        </div>
+        <div class="feature-title">Private Villas</div>
+        <div class="feature-desc">Ocean-facing retreats designed to dissolve the boundary between inside and out.</div>
+      </div>
+      <div class="feature-item reveal reveal-delay-2">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="feature-title">Dedicated Team</div>
+        <div class="feature-desc">Your personal concierge anticipates every wish before you voice it.</div>
+      </div>
+      <div class="feature-item reveal reveal-delay-1">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+        </div>
+        <div class="feature-title">Farm-to-Table Dining</div>
+        <div class="feature-desc">Fresh catches and local harvests transformed into coastal masterpieces.</div>
+      </div>
+      <div class="feature-item reveal reveal-delay-2">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        </div>
+        <div class="feature-title">Pure Seclusion</div>
+        <div class="feature-desc">A private stretch of white sand where the horizon belongs only to you.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EXPERIENCES ─── -->
+<section id="experiences">
+  <div class="exp-header">
+    <div>
+      <p class="section-label">What Awaits</p>
+      <h2 class="section-heading reveal">Craft Your <em>Perfect Day</em></h2>
+    </div>
+    <p class="section-body reveal" style="text-align:right">
+      From dawn dhow sails to moonlit bonfires, every hour at Mbuyu Watatu is shaped by the sea.
+    </p>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774516269/images_5_y3ejyi.jpg" alt="Scuba Diving">
+      <div class="exp-card-overlay">
+        <div class="exp-card-content">
+          <span class="exp-card-num">01</span>
+          <div class="exp-card-title">Scuba Diving</div>
+          <p class="exp-card-desc">Descend into the living reefs of the Shimoni Channel — one of East Africa's most pristine dive sites. Encounter whale sharks, manta rays, and kaleidoscopic coral walls in waters that few ever explore.</p>
+        </div>
+      </div>
+    </div>
+    <div class="exp-card reveal reveal-delay-1">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774516377/snorkel_vttpl1.jpg" alt="Snorkelling">
+      <div class="exp-card-overlay">
+        <div class="exp-card-content">
+          <span class="exp-card-num">02</span>
+          <div class="exp-card-title">Reef Snorkelling</div>
+          <p class="exp-card-desc">Discover a world of coral gardens and tropical fish in the crystal-clear waters just steps from your villa.</p>
+        </div>
+      </div>
+    </div>
+    <div class="exp-card reveal reveal-delay-2">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80" alt="Sunset beach">
+      <div class="exp-card-overlay">
+        <div class="exp-card-content">
+          <span class="exp-card-num">03</span>
+          <div class="exp-card-title">Sundowner Ritual</div>
+          <p class="exp-card-desc">Sip handcrafted cocktails as the sun dissolves into the horizon from your private fire-lit beach setup.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ACCOMMODATIONS ─── -->
+<section id="accommodations">
+  <div class="acc-header reveal">
+    <p class="section-label">Where You'll Sleep</p>
+    <h2 class="section-heading">Spaces as<br><em>Vast as the Sea</em></h2>
+  </div>
+  <div class="acc-grid">
+
+    <!-- Studio Room — Coming Soon -->
+    <div class="acc-card-coming reveal">
+      <div class="acc-card-coming-img-wrap">
+        <img class="acc-card-coming-img" src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515783/MB-6727_1_jjorhp.jpg" alt="Studio Room">
+        <span class="acc-coming-overlay-badge">Coming Soon</span>
+      </div>
+      <div class="acc-card-coming-body">
+        <p class="acc-card-type">Room Only · Self-Catering</p>
+        <h3 class="acc-card-title">Studio Room</h3>
+        <p class="acc-card-desc">An intimate studio for two, where the Indian Ocean breeze drifts through open louvres and the shoreline is always within sight. Six units available.</p>
+        <div class="cs-rates-grid">
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Capacity</div>
+            <div class="cs-rate-value">Max 2<span> guests</span></div>
+          </div>
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Units Available</div>
+            <div class="cs-rate-value">6<span> units</span></div>
+          </div>
+          <div class="cs-rate-cell" style="grid-column:span 2">
+            <div class="cs-rate-label">Rate · Room Only</div>
+            <div class="cs-rate-value">$130<span>/ night</span></div>
+          </div>
+        </div>
+        <div class="cs-divider"></div>
+        <div class="cs-services">
+          <span class="cs-service-tag">Room Only</span>
+          <span class="cs-service-tag">Self-Catering</span>
+        </div>
+        <a href="#contact" class="cs-notify-link">
+          Register Interest
+          <svg width="16" height="8" viewBox="0 0 16 8" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 4h14M11 1l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 2-Bedroom Unit — Coming Soon -->
+    <div class="acc-card-coming reveal reveal-delay-1">
+      <div class="acc-card-coming-img-wrap">
+        <img class="acc-card-coming-img" src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515559/MB-6756_sh6vyd.jpg" alt="2-Bedroom Unit">
+        <span class="acc-coming-overlay-badge">Coming Soon</span>
+      </div>
+      <div class="acc-card-coming-body">
+        <p class="acc-card-type">Room Only · Self-Catering</p>
+        <h3 class="acc-card-title">2-Bedroom Unit</h3>
+        <p class="acc-card-desc">Spacious and private, ideal for families or friends. A fully equipped self-catering kitchen lets you live at your own rhythm on the Kenya coast. Four units available.</p>
+        <div class="cs-rates-grid">
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Capacity</div>
+            <div class="cs-rate-value">Max 4<span> guests</span></div>
+          </div>
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Units Available</div>
+            <div class="cs-rate-value">4<span> units</span></div>
+          </div>
+          <div class="cs-rate-cell" style="grid-column:span 2">
+            <div class="cs-rate-label">Rate · Room Only</div>
+            <div class="cs-rate-value">$160<span>/ night</span></div>
+          </div>
+        </div>
+        <div class="cs-divider"></div>
+        <div class="cs-services">
+          <span class="cs-service-tag">Room Only</span>
+          <span class="cs-service-tag">Self-Catering</span>
+        </div>
+        <a href="#contact" class="cs-notify-link">
+          Register Interest
+          <svg width="16" height="8" viewBox="0 0 16 8" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 4h14M11 1l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3-Bedroom Unit — Coming Soon -->
+    <div class="acc-card-coming reveal reveal-delay-2">
+      <div class="acc-card-coming-img-wrap">
+        <img class="acc-card-coming-img" src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774516538/MB-6540_mo6to0.jpg" alt="3-Bedroom Unit">
+        <span class="acc-coming-overlay-badge">Coming Soon</span>
+      </div>
+      <div class="acc-card-coming-body">
+        <p class="acc-card-type">Room Only · Self-Catering</p>
+        <h3 class="acc-card-title">3-Bedroom Unit</h3>
+        <p class="acc-card-desc">The ultimate retreat for larger groups — three generous bedrooms, open-plan living, and an exclusive self-catering setup steps from the Indian Ocean. Two units available.</p>
+        <div class="cs-rates-grid">
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Capacity</div>
+            <div class="cs-rate-value">Max 6<span> guests</span></div>
+          </div>
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Units Available</div>
+            <div class="cs-rate-value">2<span> units</span></div>
+          </div>
+          <div class="cs-rate-cell" style="grid-column:span 2">
+            <div class="cs-rate-label">Rate · Room Only</div>
+            <div class="cs-rate-value">$200<span>/ night</span></div>
+          </div>
+        </div>
+        <div class="cs-divider"></div>
+        <div class="cs-services">
+          <span class="cs-service-tag">Room Only</span>
+          <span class="cs-service-tag">Self-Catering</span>
+        </div>
+        <a href="#contact" class="cs-notify-link">
+          Register Interest
+          <svg width="16" height="8" viewBox="0 0 16 8" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 4h14M11 1l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Tented Accommodation — Coming Soon -->
+    <div class="acc-card-coming reveal reveal-delay-3">
+      <div class="acc-card-coming-img-wrap">
+        <img class="acc-card-coming-img" src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774516538/MB-6540_mo6to0.jpg" alt="Safari & Ocean View Tents">
+        <span class="acc-coming-overlay-badge">Coming Soon</span>
+      </div>
+      <div class="acc-card-coming-body">
+        <p class="acc-card-type">New · Tented Accommodation</p>
+        <h3 class="acc-card-title">Safari & Ocean Tents</h3>
+        <p class="acc-card-desc">From intimate Mbuyu Tents to panoramic Ocean View Tents perched above the shoreline — an unforgettable way to sleep under the stars at Shimoni, Kwale.</p>
+        <div class="cs-rates-grid">
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Mbuyu Tent · Max 2</div>
+            <div class="cs-rate-value">$60<span>/ night · Room Only</span></div>
+          </div>
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Mbuyu Tent · B&B</div>
+            <div class="cs-rate-value">$75<span>/ night</span></div>
+          </div>
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Safari Tent · Max 3–4</div>
+            <div class="cs-rate-value">$80<span>/ night · Room Only</span></div>
+          </div>
+          <div class="cs-rate-cell">
+            <div class="cs-rate-label">Ocean View Tent · Max 4–5</div>
+            <div class="cs-rate-value">$110<span>/ night · Room Only</span></div>
+          </div>
+        </div>
+        <div class="cs-divider"></div>
+        <div class="cs-services">
+          <span class="cs-service-tag">Room Only</span>
+          <span class="cs-service-tag">B&B Available</span>
+          <span class="cs-service-tag">Half Board</span>
+          <span class="cs-service-tag">Full Board</span>
+          <span class="cs-service-tag">Private Chef $35/day</span>
+          <span class="cs-service-tag">Conference Packages</span>
+        </div>
+        <a href="#contact" class="cs-notify-link">
+          Register Interest
+          <svg width="16" height="8" viewBox="0 0 16 8" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 4h14M11 1l3 3-3 3"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── QUOTE BAND ─── -->
+<section id="quote-band">
+  <p class="quote-text reveal">"The ocean does not hurry, yet everything is accomplished. At Mbuyu Watatu, we simply follow its wisdom."</p>
+  <p class="quote-attr reveal reveal-delay-1">— The Bush Collection Philosophy</p>
+</section>
+
+<!-- ─── WHY ─── -->
+<section id="why">
+  <div class="why-image reveal">
+    <img class="why-img" src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515317/MB-6694_xfyq4d.jpg" alt="Coastal Kenya">
+    <div class="why-img-stripe"></div>
+  </div>
+  <div class="why-text reveal reveal-delay-1">
+    <p class="section-label">The Difference</p>
+    <h2 class="section-heading">What We <br><em>Aim</em></h2>
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div>
+          <div class="why-item-title">Private & Intimate Scale</div>
+          <p class="why-item-desc">We will host only a handful of guests at a time. The beach never feels crowded because it is your beach.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div>
+          <div class="why-item-title">Immersive Cultural Experiences</div>
+          <p class="why-item-desc">Village walks, Swahili cooking classes, and dhow-building visits connect you with the living heritage of the Kenya coast.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div>
+          <div class="why-item-title">Conscious Luxury</div>
+          <p class="why-item-desc">Solar-powered, locally staffed, and committed to protecting the reef ecosystem that makes this coastline extraordinary.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div>
+          <div class="why-item-title">The Bush Collection Standard</div>
+          <p class="why-item-desc">Decades of curating Africa's most exceptional properties, now brought to the water's edge in one unforgettable address.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GALLERY ─── -->
+<section id="gallery">
+  <div class="gallery-grid">
+    <div class="gallery-cell tall">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515317/MB-6694_xfyq4d.jpg" alt="Beach view" style="aspect-ratio:auto;height:100%;">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515559/MB-6756_sh6vyd.jpg" alt="Pool">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1773813525/IMG_4179_kd4mur.jpg" alt="Ocean sunset">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1773400142/IMG_4230-2_prneob.jpg" alt="Tropical dining">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515561/MB-6534_yqsjsr.jpg" alt="Interiors">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515561/MB-6540_jkwgmj.jpg" alt="Nature">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515783/MB-6727_1_jjorhp.jpg" alt="Beach bar">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515562/MB-6689_nrbwej.jpg" alt="Beach bar">
+    </div>
+    <div class="gallery-cell">
+      <img src="https://res.cloudinary.com/dfaakg2ds/image/upload/v1774515562/MB-6542_tem2t0.jpg" alt="Beach bar">
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-heading" style="color:var(--sand)">Begin Your<br><em>Journey</em></h2>
+    <p class="section-body" style="margin-top:20px">
+      Our reservations team is ready to craft your perfect stay. Reach us through any channel — we respond within hours, not days.
+    </p>
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">General Enquiries</div>
+          <a href="mailto:info@thebushcollection.africa" class="contact-value">info@thebushcollection.africa</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Reservations</div>
+          <a href="mailto:reservations@thebushcollection.africa" class="contact-value">reservations@thebushcollection.africa</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.05 1.2 2 2 0 012.02 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Call or WhatsApp</div>
+          <a href="tel:+254116072343" class="contact-value">+254 116 072 343</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-form-wrap reveal reveal-delay-1">
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <input type="hidden" name="_subject" value="New Enquiry — Mbuyu Watatu">
+      <div class="form-row">
+        <div class="form-field">
+          <label>First Name</label>
+          <input type="text" name="first_name" placeholder="Your first name" required>
+        </div>
+        <div class="form-field">
+          <label>Last Name</label>
+          <input type="text" name="last_name" placeholder="Your last name" required>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-field">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" placeholder="+1 (000) 000-0000">
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Arrival Date</label>
+          <input type="date" name="arrival_date">
+        </div>
+        <div class="form-field">
+          <label>Departure Date</label>
+          <input type="date" name="departure_date">
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Accommodation Interest</label>
+        <select name="accommodation">
+          <option value="" disabled selected>Select a room type</option>
+          <option>Studio Room (Max 2 Guests) — $130/night</option>
+          <option>2-Bedroom Unit (Max 4 Guests) — $160/night</option>
+          <option>3-Bedroom Unit (Max 6 Guests) — $200/night</option>
+          <option>Tented Accommodation (Coming Soon)</option>
+          <option>Not Sure — Help Me Decide</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Special Requests</label>
+        <textarea name="special_requests" placeholder="Anniversary, dietary requirements, activities..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send Enquiry</button>
+    </form>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Mbuyu <span>Watatu</span></div>
+      <p class="footer-tagline">An intimate beach sanctuary on the Kenyan coast. Part of The Bush Collection — Africa's finest collection of private retreats.</p>
+      <div class="footer-social">
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Twitter">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigate</div>
+      <ul class="footer-links">
+        <li><a href="#intro">About</a></li>
+        <li><a href="#experiences">Experiences</a></li>
+        <li><a href="#accommodations">Accommodations</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Experiences</div>
+      <ul class="footer-links">
+        <li><a href="#experiences">Dhow Sailing</a></li>
+        <li><a href="#experiences">Reef Snorkelling</a></li>
+        <li><a href="#experiences">Sundowner Events</a></li>
+        <li><a href="#experiences">Cultural Tours</a></li>
+        <li><a href="#experiences">Spa & Wellness</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="mailto:info@thebushcollection.africa">info@thebushcollection.africa</a></li>
+        <li><a href="mailto:reservations@thebushcollection.africa">reservations@thebushcollection.africa</a></li>
+        <li><a href="tel:+254116072343">+254 116 072 343</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© <span id="copy-year"></span> Mbuyu Watatu · The Bush Collection. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Cookie Settings</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Current year
+  document.getElementById('copy-year').textContent = new Date().getFullYear();
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; cursor.style.transform = 'translate(-50%,-50%) scale(0.5)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; cursor.style.transform = 'translate(-50%,-50%) scale(1)'; });
+  });
+
+  // Sticky nav
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.add('open');
+  });
+  document.getElementById('mobileClose').addEventListener('click', closeMobile);
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    fetch('https://formspree.io/f/xojpqyqn', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(res => {
+      if (res.ok) {
+        btn.textContent = 'Enquiry Sent ✓';
+        btn.style.background = '#4A8FA6';
+        btn.style.color = 'var(--sand)';
+        form.reset();
+        setTimeout(() => {
+          btn.textContent = 'Send Enquiry';
+          btn.style.background = '';
+          btn.style.color = '';
+          btn.disabled = false;
+        }, 4000);
+      } else {
+        return res.json().then(data => { throw data; });
+      }
+    })
+    .catch(() => {
+      btn.textContent = 'Failed — Try Again';
+      btn.style.background = '#C4704A';
+      btn.style.color = 'var(--sand)';
+      btn.disabled = false;
+      setTimeout(() => {
+        btn.textContent = 'Send Enquiry';
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 4000);
+    });
+  }
+</script>
+</body>
+</html>
